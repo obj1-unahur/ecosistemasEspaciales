@@ -1,12 +1,66 @@
+import especies.*
 
-describe "tests de animales" {
-//probar los métodos biomasa(), peso(), consecuenciasDelIncendio, esGrande(),
-//esPequenio(), esMediano(), estaVivo(), etc
+describe "test de animales" {
+	const perro = new EspecieFauna(pesoReferencia=13,formaDeLocomocion=correr,coeficiente=1.2)
+	const tigre = new EspecieFauna(pesoReferencia=150,formaDeLocomocion=correr,coeficiente=1.2)
+	const golondrina = new EspecieFauna(pesoReferencia=1,formaDeLocomocion=volar,coeficiente=0.8)
+	const mejillon = new EspecieFauna(pesoReferencia=0.2,formaDeLocomocion=quedarseQuieto,coeficiente=0.6)
+
+	const perro1 = new Animal(especie=perro,peso=6)
+	const perro2 = new Animal(especie=perro,peso=30)
+	const tigre1 = new Animal(especie=tigre,peso=180)
+	const mejillon1 = new Animal(especie=mejillon,peso=0.3)
+	const golondrina1 = new Animal(especie=golondrina,peso=6)
 	
-
+	test "el perro1 es pequenio" {
+		assert.that(perro1.esPequenio())
+	}
+	test "el perro2 es grande" {
+		assert.that(perro2.esGrande())
+	}
+	test "la biomasa del perro1 es igual a 6x6 / 1.2 = 30" {
+		assert.equals(30,perro1.biomasa())
+	}
+	test "consecuencias de inciendio en golondrina1 se salva" {
+		golondrina1.consecuenciasPorIncendio()
+		assert.that(golondrina1.estaVivo())
+		assert.equals(5.4,golondrina1.peso())
+	}
+	test "consecuencias de inciendio en mejillon se muere" {
+		mejillon1.consecuenciasPorIncendio()
+		assert.notThat(mejillon1.estaVivo())
+	}
+	
 }
 
-describe "tests de plantas" {
-//probar los métodos biomasa(), altura(), consecuenciasDelIncendio, esGrande(),
-//esPequenio(), estaVivo() etc
+describe "test de plantas" {
+	const helecho = new EspecieFlora(alturaMaxDeReferencia=50)
+	const ficus = new EspecieFlora(alturaMaxDeReferencia=8)
+
+	const helecho1 = new Planta(especie=helecho,altura=6)
+	const helecho2 = new Planta(especie=helecho,altura=26)
+	const ficus1 = new Planta(especie=ficus,altura=25)
+	
+	
+	test "el helecho1 es pequenio" {
+		assert.that(helecho1.esPequenio())
+	}
+	test "el helecho2 es grande" {
+		assert.that(helecho2.esGrande())
+	}
+	test "la biomasa del helecho1 es igual a 6 x 2 = 12" {
+		assert.equals(12,helecho1.biomasa())
+	}
+	test "la biomasa del helecho2 es igual a 26 x 2 = 52" {
+		assert.equals(50,helecho2.biomasa())
+	}
+	test "consecuencias de inciendio en helecho1 se muere" {
+		helecho1.consecuenciasPorIncendio()
+		assert.notThat(helecho1.estaVivo())
+	}
+	test "consecuencias de incendio de helecho2, reduce 5 su altura porque es grande" {
+		helecho2.consecuenciasPorIncendio()
+		assert.equals(21,helecho2.altura())
+	}
+	
 }
